@@ -8,10 +8,10 @@ An advanced, real-time bus seat booking and AI-powered occupancy tracking platfo
 
 Click the buttons below to open the services in your browser when running locally:
 
-[![User Application](https://img.shields.io/badge/Open_User_App-http%3A%2F%2Flocalhost%3A5173-blue?style=for-the-badge&logo=react&logoColor=white)](http://localhost:5173)
-[![Admin Dashboard](https://img.shields.io/badge/Open_Admin_Dashboard-http%3A%2F%2Flocalhost%3A5175-gold?style=for-the-badge&logo=vite&logoColor=white)](http://localhost:5175)
-[![AI Scanner Service](https://img.shields.io/badge/Open_AI_Scanner-http%3A%2F%2Flocalhost%3A5050-green?style=for-the-badge&logo=python&logoColor=white)](http://localhost:5050)
-[![Database Server](https://img.shields.io/badge/Open_Database_API-http%3A%2F%2Flocalhost%3A3001-red?style=for-the-badge&logo=json&logoColor=white)](http://localhost:3001)
+[![User Application](https://img.shields.io/badge/Open_User_App-http%3A%2F%2Flocalhost%3A6173-blue?style=for-the-badge&logo=react&logoColor=white)](http://localhost:6173)
+[![Admin Dashboard](https://img.shields.io/badge/Open_Admin_Dashboard-http%3A%2F%2Flocalhost%3A6175-gold?style=for-the-badge&logo=vite&logoColor=white)](http://localhost:6175)
+[![AI Scanner Service](https://img.shields.io/badge/Open_AI_Scanner-http%3A%2F%2Flocalhost%3A6050-green?style=for-the-badge&logo=python&logoColor=white)](http://localhost:6050)
+[![Database Server](https://img.shields.io/badge/Open_Database_API-http%3A%2F%2Flocalhost%3A6001-red?style=for-the-badge&logo=json&logoColor=white)](http://localhost:6001)
 
 ---
 
@@ -21,9 +21,9 @@ The platform consists of four distinct sub-projects working in sync:
 
 ```mermaid
 graph TD
-    UserApp[User React App :5173] -->|API Requests| DB[(JSON Database Server :3001)]
-    AdminDash[Admin React Dashboard :5175] -->|API Requests| DB
-    AIScanner[AI Seat Scanner :5050] -->|Update Occupancy| DB
+    UserApp[User React App :6173] -->|API Requests| DB[(JSON Database Server :6001)]
+    AdminDash[Admin React Dashboard :6175] -->|API Requests| DB
+    AIScanner[AI Seat Scanner :6050] -->|Update Occupancy| DB
     AdminDash -.->|Embeds live feed| AIScanner
 ```
 

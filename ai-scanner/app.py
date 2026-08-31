@@ -47,7 +47,7 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 
 # ── Config ────────────────────────────────────────────────────────────────────
-DB_API        = "http://localhost:3001"
+DB_API        = "http://localhost:6001"
 POST_INTERVAL = 15                      # seconds between DB syncs
 YOLO_MODEL    = "yolov8n.pt"
 PERSON_CLS    = 0                       # COCO class 0 = person
@@ -595,7 +595,7 @@ def main():
     parser.add_argument("--camera", type=int, default=0)
     parser.add_argument("--video",  help="Path to video file")
     parser.add_argument("--demo",   action="store_true")
-    parser.add_argument("--port",   type=int, default=5050)
+    parser.add_argument("--port",   type=int, default=6050)
     args = parser.parse_args()
 
     _bus_id    = args.bus_id

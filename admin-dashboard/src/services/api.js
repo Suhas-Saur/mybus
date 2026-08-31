@@ -1,5 +1,5 @@
-// Shared API service — talks to json-server on port 3001
-const BASE = 'http://localhost:3001'
+// Shared API service — talks to json-server on port 6001
+const BASE = 'http://localhost:6001'
 
 // Helper: fetch with a connection error hint
 async function apiFetch(url, options = {}) {

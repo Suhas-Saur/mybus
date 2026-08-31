@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-const BASE = 'http://localhost:3001'
+const BASE = 'http://localhost:6001'
 
 export default function Login({ onLogin }) {
     const [form, setForm] = useState({ email: '', password: '' })
