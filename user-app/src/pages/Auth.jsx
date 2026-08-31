@@ -88,6 +88,26 @@ export default function Auth() {
         }
     }
 
+    const handleInstantLogin = async (email, password) => {
+        setLoading(true)
+        setError('')
+        try {
+            const res = await fetch(`${BASE}/users?email=${encodeURIComponent(email)}`)
+            const users = await res.json()
+            const user = users[0]
+            if (!user || user.password !== password) {
+                setError('Instant login failed. Please verify credentials.')
+                return
+            }
+            localStorage.setItem('bmtc_user', JSON.stringify({ id: user.id, name: user.name, email: user.email, role: user.role }))
+            navigate('/dashboard')
+        } catch {
+            setError('Cannot connect to database. Make sure the DB server is running.')
+        } finally {
+            setLoading(false)
+        }
+    }
+
     return (
         <motion.div
             variants={pageVariants} initial="initial" animate="animate" exit="exit"
@@ -214,8 +234,17 @@ export default function Auth() {
                         </motion.button>
 
                         {mode === 'login' && (
-                            <div style={{ marginTop: 4, padding: '10px 14px', borderRadius: 8, background: 'rgba(201,168,76,0.06)', border: '1px solid rgba(201,168,76,0.18)' }}>
-                                <div style={{ fontSize: 11, color: 'var(--text-secondary)', marginBottom: 4, fontWeight: 600, letterSpacing: 0.5 }}>DEMO ACCOUNT</div>
+                            <div style={{ marginTop: 4, padding: '12px 14px', borderRadius: 8, background: 'rgba(201,168,76,0.06)', border: '1px solid rgba(201,168,76,0.18)', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <div style={{ fontSize: 11, color: 'var(--text-secondary)', fontWeight: 600, letterSpacing: 0.5 }}>DEMO ACCOUNT</div>
+                                    <button 
+                                        type="button"
+                                        onClick={() => handleInstantLogin('arjun@bmtc.in', 'password123')}
+                                        style={{ background: 'var(--gold)', color: '#1a1206', border: 'none', borderRadius: 4, padding: '2px 8px', fontSize: 10, fontWeight: 700, cursor: 'pointer' }}
+                                    >
+                                        ⚡ Instant Login
+                                    </button>
+                                </div>
                                 <div style={{ fontSize: 12, color: 'var(--gold)', fontFamily: 'monospace' }}>arjun@bmtc.in · password123</div>
                             </div>
                         )}

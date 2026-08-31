@@ -41,7 +41,31 @@ export default function Login({ onLogin }) {
             localStorage.setItem('bmtc_admin', JSON.stringify({ id: user.id, name: user.name, email: user.email }))
             onLogin(user)
         } catch {
-            setError('Cannot connect to database. Make sure DB server is running on port 3001.')
+            setError('Cannot connect to database. Make sure DB server is running on port 6001.')
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const handleInstantLogin = async (email, password) => {
+        setLoading(true)
+        setError('')
+        try {
+            const res = await fetch(`${BASE}/users?email=${encodeURIComponent(email)}`)
+            const users = await res.json()
+            const user = users[0]
+            if (!user || user.password !== password) {
+                setError('Instant login failed. Please verify credentials.')
+                return
+            }
+            if (user.role !== 'admin') {
+                setError('Access denied. This panel is for admins only.')
+                return
+            }
+            localStorage.setItem('bmtc_admin', JSON.stringify({ id: user.id, name: user.name, email: user.email }))
+            onLogin(user)
+        } catch {
+            setError('Cannot connect to database. Make sure DB server is running on port 6001.')
         } finally {
             setLoading(false)
         }
@@ -158,8 +182,17 @@ export default function Login({ onLogin }) {
                 </form>
 
                 {/* Demo hint */}
-                <div style={{ marginTop: 20, padding: '10px 14px', borderRadius: 9, background: 'rgba(201,168,76,0.06)', border: '1px solid rgba(201,168,76,0.15)' }}>
-                    <div style={{ fontSize: 10, color: 'var(--muted)', marginBottom: 4, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.8 }}>Demo Credentials</div>
+                <div style={{ marginTop: 20, padding: '12px 14px', borderRadius: 9, background: 'rgba(201,168,76,0.06)', border: '1px solid rgba(201,168,76,0.15)', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div style={{ fontSize: 10, color: 'var(--muted)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.8 }}>Demo Credentials</div>
+                        <button 
+                            type="button"
+                            onClick={() => handleInstantLogin('admin@bmtc.in', 'admin123')}
+                            style={{ background: 'var(--gold)', color: '#1a1206', border: 'none', borderRadius: 4, padding: '2px 8px', fontSize: 10, fontWeight: 700, cursor: 'pointer' }}
+                        >
+                            ⚡ Instant Login
+                        </button>
+                    </div>
                     <div style={{ fontSize: 12, color: 'var(--gold)', fontFamily: 'monospace' }}>admin@bmtc.in · admin123</div>
                 </div>
             </motion.div>
