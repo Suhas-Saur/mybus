@@ -4,6 +4,29 @@ A full-stack, real-time bus seat booking and AI-powered occupancy tracking platf
 
 ---
 
+## 🚀 Live Demo
+
+Experience the live applications deployed on permanent cloud infrastructure:
+
+- **Passenger Portal**: [Open Passenger Live Demo](https://mybus-user.vercel.app)
+- **Admin Dashboard**: [Open Admin Dashboard Live Demo](https://mybus-admin.vercel.app)
+- **Database & API Service**: [Open Backend Health API](https://mybus-api.onrender.com/health)
+
+---
+
+## 📦 Deployment Information
+
+This project is deployed independently from the local development and Antigravity environments. It runs 24/7 on global cloud infrastructure:
+
+- **Production Deployment (Passenger)**: [https://mybus-user.vercel.app](https://mybus-user.vercel.app)
+- **Production Deployment (Admin)**: [https://mybus-admin.vercel.app](https://mybus-admin.vercel.app)
+- **Backend API**: [https://mybus-api.onrender.com](https://mybus-api.onrender.com)
+- **Hosting Platform**: Vercel (Frontends) + Render (Backend Node API & Blueprint)
+- **Repository**: [https://github.com/Suhas-Saur/mybus](https://github.com/Suhas-Saur/mybus)
+- **Continuous Deployment**: Enabled — any commit pushed to `main` automatically triggers production builds and live zero-downtime deploys.
+
+---
+
 ## 🌐 Environments: Local vs Development vs Production
 
 Understanding the distinct environments ensures your live demos remain permanently accessible:
@@ -12,7 +35,7 @@ Understanding the distinct environments ensures your live demos remain permanent
 | :--- | :--- | :--- | :--- |
 | **LOCAL** | `localhost:6173`, `localhost:6175`, `localhost:6001` | Only while terminal commands run | Local coding and rapid iteration |
 | **DEVELOPMENT** | Antigravity Preview / Background tasks | Active only while this Antigravity session is open | Pair programming & AI prototyping |
-| **PRODUCTION** | Permanent Cloud URLs (e.g. `*.vercel.app`, `*.onrender.com`) | **24/7 Permanent & Independent** | Live public demo that stays online when Antigravity closes or switches projects |
+| **PRODUCTION** | Permanent Cloud URLs (`*.vercel.app`, `*.onrender.com`) | **24/7 Permanent & Independent** | Live public demo that stays online when Antigravity closes or switches projects |
 
 ---
 
