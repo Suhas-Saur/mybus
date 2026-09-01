@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 
-const BASE = 'http://localhost:6001'
+import { BASE } from '../services/api'
 
 const pageVariants = {
     initial: { opacity: 0, y: 30 },

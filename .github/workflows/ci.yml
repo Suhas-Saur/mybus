@@ -1,0 +1,47 @@
+name: Production Build & CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate-and-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache-dependency-path: |
+            user-app/package.json
+            admin-dashboard/package.json
+            db/package.json
+
+      # 1. Test Database API
+      - name: Install & Verify DB Service
+        run: |
+          cd db
+          npm ci
+          node server.js &
+          sleep 3
+          curl --fail http://localhost:6001/health || exit 1
+
+      # 2. Build User App
+      - name: Build User Application (Vite React)
+        run: |
+          cd user-app
+          npm ci
+          npm run build
+
+      # 3. Build Admin Dashboard
+      - name: Build Admin Dashboard (Vite React)
+        run: |
+          cd admin-dashboard
+          npm ci
+          npm run build

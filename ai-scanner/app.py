@@ -47,7 +47,7 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 
 # ── Config ────────────────────────────────────────────────────────────────────
-DB_API        = "http://localhost:6001"
+DB_API        = os.environ.get("DB_API", "http://localhost:6001").rstrip('/')
 POST_INTERVAL = 15                      # seconds between DB syncs
 YOLO_MODEL    = "yolov8n.pt"
 PERSON_CLS    = 0                       # COCO class 0 = person
@@ -444,6 +444,18 @@ def video_feed():
     return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
+@app.route('/health')
+def health():
+    """Health check endpoint for cloud monitoring & deployment probes."""
+    return jsonify({
+        "status": "ok",
+        "service": "bmtc-ai-scanner",
+        "bus_id": _bus_id,
+        "mode": _source_mode,
+        "timestamp": datetime.now().isoformat()
+    })
+
+
 @app.route('/stats')
 def stats():
     with _lock:
@@ -595,7 +607,7 @@ def main():
     parser.add_argument("--camera", type=int, default=0)
     parser.add_argument("--video",  help="Path to video file")
     parser.add_argument("--demo",   action="store_true")
-    parser.add_argument("--port",   type=int, default=6050)
+    parser.add_argument("--port",   type=int, default=int(os.environ.get("PORT", 6050)))
     args = parser.parse_args()
 
     _bus_id    = args.bus_id

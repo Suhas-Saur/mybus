@@ -1,5 +1,5 @@
-// Shared API service — talks to json-server on port 6001
-const BASE = 'http://localhost:6001'
+// Shared API service — reads from VITE_API_URL or defaults to local dev server
+export const BASE = (import.meta.env.VITE_API_URL || 'http://localhost:6001').replace(/\/$/, '')
 
 // Helper: wraps fetch with a human-readable connection error
 async function apiFetch(url, options = {}) {
@@ -13,7 +13,7 @@ async function apiFetch(url, options = {}) {
         return res.json()
     } catch (err) {
         if (err instanceof TypeError && err.message.includes('fetch')) {
-            throw new Error('Cannot reach database. Make sure the DB server is running on port 3001.')
+            throw new Error(`Cannot reach API server at ${BASE}. Please verify the backend is running.`)
         }
         throw err
     }

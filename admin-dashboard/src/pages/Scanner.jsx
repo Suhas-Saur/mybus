@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { connectors, webrtc } from '@roboflow/inference-sdk'
 import { getBuses, updateBus } from '../services/api'
 
-const ROBOFLOW_API_KEY = 'zVvLiWzoQ9tohiNzcgBR'
+const ROBOFLOW_API_KEY = import.meta.env.VITE_ROBOFLOW_API_KEY || 'zVvLiWzoQ9tohiNzcgBR'
 const WORKSPACE = 'dhansuh'
 const WORKFLOW_ID = 'detect-count-and-visualize-2'
 const VIDEO_OUTPUT = 'output_image'
