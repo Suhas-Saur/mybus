@@ -82,7 +82,19 @@ export default function Auth() {
                 navigate('/dashboard')
             }
         } catch {
-            setError('Cannot connect to database. Make sure the DB server is running.')
+            if (mode === 'login') {
+                if (form.email.trim().toLowerCase() === 'arjun@bmtc.in' && form.password === 'password123') {
+                    localStorage.setItem('bmtc_user', JSON.stringify({ id: 'U001', name: 'Arjun Sharma', email: 'arjun@bmtc.in', role: 'user' }))
+                    navigate('/dashboard')
+                    return
+                }
+            } else {
+                const newUser = { id: `U${Date.now()}`, name: form.name.trim(), email: form.email.trim(), role: 'user' }
+                localStorage.setItem('bmtc_user', JSON.stringify(newUser))
+                navigate('/dashboard')
+                return
+            }
+            setError('Cannot reach database. Please use demo credentials (arjun@bmtc.in / password123) or click Instant Login.')
         } finally {
             setLoading(false)
         }
@@ -102,6 +114,12 @@ export default function Auth() {
             localStorage.setItem('bmtc_user', JSON.stringify({ id: user.id, name: user.name, email: user.email, role: user.role }))
             navigate('/dashboard')
         } catch {
+            // Static / GitHub Pages fallback
+            if (email.toLowerCase() === 'arjun@bmtc.in') {
+                localStorage.setItem('bmtc_user', JSON.stringify({ id: 'U001', name: 'Arjun Sharma', email: 'arjun@bmtc.in', role: 'user' }))
+                navigate('/dashboard')
+                return
+            }
             setError('Cannot connect to database. Make sure the DB server is running.')
         } finally {
             setLoading(false)

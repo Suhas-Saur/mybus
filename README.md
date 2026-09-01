@@ -6,24 +6,27 @@ A full-stack, real-time bus seat booking and AI-powered occupancy tracking platf
 
 ## 🚀 Live Demo
 
-Experience the live applications deployed on permanent cloud infrastructure:
+Experience the live deployed application hosted 24/7 on permanent cloud infrastructure (independent of Antigravity and local servers):
 
-- **Passenger Portal**: [Open Passenger Live Demo](https://mybus-user.vercel.app)
-- **Admin Dashboard**: [Open Admin Dashboard Live Demo](https://mybus-admin.vercel.app)
-- **Database & API Service**: [Open Backend Health API](https://mybus-api.onrender.com/health)
+- 📱 **Passenger Portal Live Demo**: [https://suhas-saur.github.io/mybus/](https://suhas-saur.github.io/mybus/)
+- 🛠️ **Admin Dashboard Live Demo**: [https://suhas-saur.github.io/mybus/admin/](https://suhas-saur.github.io/mybus/admin/)
+
+> **Demo Credentials**:
+> - **Passenger**: `arjun@bmtc.in` / `password123` (or click **⚡ Instant Login**)
+> - **Admin**: `admin@bmtc.in` / `admin123` (or click **⚡ Instant Login**)
 
 ---
 
 ## 📦 Deployment Information
 
-This project is deployed independently from the local development and Antigravity environments. It runs 24/7 on global cloud infrastructure:
+This project is deployed independently from the local development and Antigravity environments. It runs 24/7 on permanent hosting:
 
-- **Production Deployment (Passenger)**: [https://mybus-user.vercel.app](https://mybus-user.vercel.app)
-- **Production Deployment (Admin)**: [https://mybus-admin.vercel.app](https://mybus-admin.vercel.app)
-- **Backend API**: [https://mybus-api.onrender.com](https://mybus-api.onrender.com)
-- **Hosting Platform**: Vercel (Frontends) + Render (Backend Node API & Blueprint)
+- **Production Deployment (Passenger)**: [https://suhas-saur.github.io/mybus/](https://suhas-saur.github.io/mybus/)
+- **Production Deployment (Admin)**: [https://suhas-saur.github.io/mybus/admin/](https://suhas-saur.github.io/mybus/admin/)
+- **Alternative Cloud Deployment**: Vercel (`https://mybus-user.vercel.app`) + Render (`https://mybus-api.onrender.com`)
+- **Hosting Platform**: GitHub Pages (Automated GitHub Actions CI/CD)
 - **Repository**: [https://github.com/Suhas-Saur/mybus](https://github.com/Suhas-Saur/mybus)
-- **Continuous Deployment**: Enabled — any commit pushed to `main` automatically triggers production builds and live zero-downtime deploys.
+- **Continuous Deployment**: Enabled — any commit pushed to `main` automatically triggers production builds and live deploys via GitHub Actions (`.github/workflows/deploy-pages.yml`).
 
 ---
 
@@ -35,7 +38,7 @@ Understanding the distinct environments ensures your live demos remain permanent
 | :--- | :--- | :--- | :--- |
 | **LOCAL** | `localhost:6173`, `localhost:6175`, `localhost:6001` | Only while terminal commands run | Local coding and rapid iteration |
 | **DEVELOPMENT** | Antigravity Preview / Background tasks | Active only while this Antigravity session is open | Pair programming & AI prototyping |
-| **PRODUCTION** | Permanent Cloud URLs (`*.vercel.app`, `*.onrender.com`) | **24/7 Permanent & Independent** | Live public demo that stays online when Antigravity closes or switches projects |
+| **PRODUCTION** | GitHub Pages (`https://suhas-saur.github.io/mybus/`) | **24/7 Permanent & Independent** | Live public demo that stays online when Antigravity closes or switches projects |
 
 ---
 
@@ -48,17 +51,17 @@ graph TD
     end
 
     subgraph ProductionDeploy ["Permanent Production Deployment (24/7)"]
-        DB["Render Web Service (db/server.js)<br/>https://mybus-api.onrender.com<br/>/health endpoint"]
-        UserApp["Vercel Static (user-app/)<br/>https://mybus-user.vercel.app"]
-        AdminApp["Vercel Static (admin-dashboard/)<br/>https://mybus-admin.vercel.app"]
+        GHPages["GitHub Pages Live Demo<br/>https://suhas-saur.github.io/mybus/"]
+        AdminPages["GitHub Pages Admin Dashboard<br/>https://suhas-saur.github.io/mybus/admin/"]
+        RenderDB["Render Cloud API (Optional Live Backend)<br/>https://mybus-api.onrender.com"]
     end
 
-    Repo -->|"Automated Git Push Deploy"| DB
-    Repo -->|"Automated Git Push Deploy"| UserApp
-    Repo -->|"Automated Git Push Deploy"| AdminApp
+    Repo -->|"Automated GitHub Actions Workflow"| GHPages
+    Repo -->|"Automated GitHub Actions Workflow"| AdminPages
+    Repo -.->|"Optional 1-Click Blueprint"| RenderDB
 
-    UserApp -->|"REST API (VITE_API_URL)"| DB
-    AdminApp -->|"REST API (VITE_API_URL)"| DB
+    GHPages -->|"REST API / Offline Fallback"| RenderDB
+    AdminPages -->|"REST API / Offline Fallback"| RenderDB
 ```
 
 The system comprises 4 components:
@@ -69,54 +72,16 @@ The system comprises 4 components:
 
 ---
 
-## 🚀 Permanent Cloud Deployment Guide (Zero-Antigravity)
+## ⚙️ Enabling GitHub Pages (One-Time Setup in GitHub)
 
-Follow this 2-step setup once. After connecting, **every `git push` to your repository automatically updates your permanent live deployment**.
+To ensure GitHub serves your GitHub Actions build:
 
-### Step 1: Deploy Backend API on Render (Takes ~2 minutes)
-1. Sign in to [render.com](https://render.com) (free).
-2. Click **New +** → **Web Service**.
-3. Connect your GitHub repository: `Suhas-Saur/mybus`.
-4. Configure the service:
-   - **Name**: `mybus-api` (or your choice)
-   - **Root Directory**: `db`
-   - **Runtime**: `Node`
-   - **Build Command**: `npm install`
-   - **Start Command**: `npm start`
-   - **Instance Type**: `Free`
-5. Click **Deploy Web Service**.
-6. Once deployed, copy your permanent backend URL (e.g. `https://mybus-api.onrender.com`).
-   - You can test it by visiting: `https://mybus-api.onrender.com/health` (should return `{"status":"ok"}`).
-
-> **Alternative (1-Click Blueprint):**
-> In Render, choose **New +** → **Blueprint**, select `Suhas-Saur/mybus`, and Render will automatically read `render.yaml` to deploy the backend and static sites together!
-
----
-
-### Step 2: Deploy Frontends on Vercel (Takes ~2 minutes)
-
-#### 2A. Deploy Passenger App (`user-app`)
-1. Sign in to [vercel.com](https://vercel.com) (free).
-2. Click **Add New…** → **Project**, and import `Suhas-Saur/mybus`.
-3. Under **Root Directory**, click **Edit** and select `user-app`.
-4. Under **Environment Variables**, add:
-   - `VITE_API_URL`: Your Render backend URL from Step 1 (e.g. `https://mybus-api.onrender.com`)
-5. Click **Deploy**. Vercel will assign a permanent URL (e.g. `https://mybus-user.vercel.app`).
-
-#### 2B. Deploy Admin Dashboard (`admin-dashboard`)
-1. In Vercel, click **Add New…** → **Project**, and import `Suhas-Saur/mybus` again.
-2. Under **Root Directory**, click **Edit** and select `admin-dashboard`.
-3. Under **Environment Variables**, add:
-   - `VITE_API_URL`: Your Render backend URL (e.g. `https://mybus-api.onrender.com`)
-   - `VITE_ROBOFLOW_API_KEY`: `zVvLiWzoQ9tohiNzcgBR`
-4. Click **Deploy**. Vercel will assign a permanent URL (e.g. `https://mybus-admin.vercel.app`).
-
----
-
-## 🔑 Default Credentials
-
-- **Passenger Portal**: `arjun@bmtc.in` / `password123` (or click **⚡ Instant Login**)
-- **Admin Dashboard**: `admin@bmtc.in` / `admin123` (or click **⚡ Instant Login**)
+1. Open your repository on GitHub: [`https://github.com/Suhas-Saur/mybus`](https://github.com/Suhas-Saur/mybus).
+2. Go to **Settings** → **Pages** (on the left menu).
+3. Under **Build and deployment** → **Source**, select **GitHub Actions** (or select **Deploy from a branch** and choose `gh-pages`).
+4. Once selected, your site will be live at:
+   - Passenger App: **`https://suhas-saur.github.io/mybus/`**
+   - Admin Dashboard: **`https://suhas-saur.github.io/mybus/admin/`**
 
 ---
 
@@ -160,18 +125,16 @@ Local access links:
 
 For every repository you create (`project-1`, `project-2`, etc.):
 
-1. **Frontend Projects (React, Vue, Next.js, Vite)**:
+1. **Frontend / Static Projects**:
    - Push repository to GitHub.
-   - Import repository into Vercel or Netlify.
-   - Set build command `npm run build` and output directory `dist` (or `.next`).
-   - Add `vercel.json` with SPA rewrites if using client-side routing.
-   - Vercel automatically deploys every commit to a permanent domain.
+   - Add `.github/workflows/deploy-pages.yml` using `actions/deploy-pages`.
+   - In GitHub Settings → Pages, select **GitHub Actions**.
+   - Your project is permanently live at `https://<username>.github.io/<repo>/` forever for free.
 
-2. **Full-Stack Projects (Node.js, Express, Python, DB)**:
-   - Push repository to GitHub.
+2. **Full-Stack Projects**:
    - Deploy backend to Render or Railway with health check (`/health`).
-   - Provide `.env.example` documenting `PORT`, `DATABASE_URL`, etc.
-   - In the frontend deployment, set `VITE_API_URL` (or `NEXT_PUBLIC_API_URL`) to the deployed backend URL.
+   - Frontend reads `VITE_API_URL` with offline mock fallback.
+   - Deploys on GitHub Pages or Vercel.
 
 3. **Independence Rule**:
    - Never hardcode `localhost` in client files. Always read from `import.meta.env` or `process.env`.

@@ -1,0 +1,69 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache-dependency-path: |
+            user-app/package.json
+            admin-dashboard/package.json
+
+      - name: Build Admin Dashboard
+        run: |
+          cd admin-dashboard
+          npm ci
+          npm run build
+
+      - name: Build Passenger App
+        run: |
+          cd user-app
+          npm ci
+          npm run build
+
+      - name: Assemble Unified GitHub Pages Site
+        run: |
+          mkdir -p user-app/dist/admin
+          cp -r admin-dashboard/dist/* user-app/dist/admin/
+          cp user-app/dist/index.html user-app/dist/404.html
+
+      - name: Deploy to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./user-app/dist
+
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'user-app/dist'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

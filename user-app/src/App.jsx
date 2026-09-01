@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 import Auth from './pages/Auth'
 import Dashboard from './pages/Dashboard'
@@ -11,7 +11,7 @@ function RequireAuth({ children }) {
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <AnimatePresence mode="wait">
         <Routes>
           <Route path="/" element={<Navigate to="/auth" replace />} />
@@ -19,7 +19,7 @@ function App() {
           <Route path="/dashboard/*" element={<RequireAuth><Dashboard /></RequireAuth>} />
         </Routes>
       </AnimatePresence>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 

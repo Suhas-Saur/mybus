@@ -41,7 +41,13 @@ export default function Login({ onLogin }) {
             localStorage.setItem('bmtc_admin', JSON.stringify({ id: user.id, name: user.name, email: user.email }))
             onLogin(user)
         } catch {
-            setError('Cannot connect to database. Make sure DB server is running on port 6001.')
+            if (form.email.trim().toLowerCase() === 'admin@bmtc.in' && form.password === 'admin123') {
+                const adminUser = { id: 'U002', name: 'Admin', email: 'admin@bmtc.in', role: 'admin' }
+                localStorage.setItem('bmtc_admin', JSON.stringify(adminUser))
+                onLogin(adminUser)
+                return
+            }
+            setError('Cannot connect to database. Use demo credentials (admin@bmtc.in / admin123) or click Instant Login.')
         } finally {
             setLoading(false)
         }
@@ -65,6 +71,12 @@ export default function Login({ onLogin }) {
             localStorage.setItem('bmtc_admin', JSON.stringify({ id: user.id, name: user.name, email: user.email }))
             onLogin(user)
         } catch {
+            if (email.toLowerCase() === 'admin@bmtc.in') {
+                const adminUser = { id: 'U002', name: 'Admin', email: 'admin@bmtc.in', role: 'admin' }
+                localStorage.setItem('bmtc_admin', JSON.stringify(adminUser))
+                onLogin(adminUser)
+                return
+            }
             setError('Cannot connect to database. Make sure DB server is running on port 6001.')
         } finally {
             setLoading(false)
